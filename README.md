@@ -1,2 +1,12 @@
 # Solar-Power-Prediction
-Streamlit App with a time-series BI-LSTM model to predict AC_POWER of a power plant.
+---
+title: Solar Power Prediction (Bi-LSTM)
+emoji: ☀️
+colorFrom: yellow
+colorTo: blue
+sdk: streamlit
+sdk_version: "1.31.1"
+app_file: app.py
+pinned: false
+---
+
