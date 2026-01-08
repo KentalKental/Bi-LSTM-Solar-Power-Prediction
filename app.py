@@ -5,8 +5,7 @@ import plotly.graph_objects as go
 import joblib
 import os
 import numpy as np
-import tensorflow as tf
-
+import keras
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="SolarInverter AI",
@@ -211,8 +210,8 @@ else:
                     return None, None, None
 
                 # Load resources
-                with tf.keras.utils.custom_object_scope({'leaky_relu': tf.nn.leaky_relu}):
-                    model = tf.keras.models.load_model(model_path, compile=False)
+                with keras.utils.custom_object_scope({'leaky_relu': keras.activations.leaky_relu}):
+                    model = keras.models.load_model(model_path, compile=False)
                 feat_scaler = joblib.load(feat_scaler_path)
                 target_scaler = joblib.load(target_scaler_path)
                 
