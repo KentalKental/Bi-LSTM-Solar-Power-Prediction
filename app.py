@@ -4,6 +4,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import joblib
 import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
+os.environ["TF_NUM_INTEROP_THREADS"] = "1"
 import numpy as np
 import tensorflow as tf
 
@@ -196,13 +199,11 @@ else:
         #  Load model/scalers ONCE and cache them 
         @st.cache_resource
         def load_model_and_scalers():
-            st.write('test1')
             try:
                 model_path = "solar_lstm_model_with_weather.keras"
                 feat_scaler_path = "feature_scaler_with_weather.save"
                 target_scaler_path = "target_scaler_with_weather.save"
-                st.write('test2')
-
+                
                 # Check if files exist
                 if not os.path.exists(model_path):
                     st.error(f"Model file not found at: {model_path}")
@@ -211,15 +212,13 @@ else:
                 if not os.path.exists(feat_scaler_path) or not os.path.exists(target_scaler_path):
                     st.error("Scaler files not found.")
                     return None, None, None
-                st.write('test3')
 
                 # Load resources
                 with tf.keras.utils.custom_object_scope({'leaky_relu': tf.nn.leaky_relu}):
                     model = tf.keras.models.load_model(model_path, compile=False)
                 feat_scaler = joblib.load(feat_scaler_path)
                 target_scaler = joblib.load(target_scaler_path)
-                st.write('test4')
-
+                
                 return model, feat_scaler, target_scaler
             except Exception as e:
                 st.error(f"Error loading resources: {str(e)}")
